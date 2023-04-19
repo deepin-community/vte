@@ -1,0 +1,83 @@
+Source: vte
+Section: libs
+Priority: optional
+Maintainer: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>
+Uploaders: @GNOME_TEAM@
+Build-Depends: debhelper-compat (= 11),
+               dh-sequence-gnome,
+               libglib2.0-dev (>= 2.26.0),
+               libcairo2-dev,
+               libx11-dev,
+               libgtk2.0-dev (>= 2.20.0),
+               gobject-introspection (>= 0.9.12-4~),
+               libncurses5-dev,
+               gtk-doc-tools,
+               libpango1.0-dev (>= 1.22.0),
+               intltool (>= 0.35)
+Standards-Version: 4.3.0
+Vcs-Browser: https://salsa.debian.org/gnome-team/vte
+Vcs-Git: https://salsa.debian.org/gnome-team/vte.git
+Homepage: https://wiki.gnome.org/Apps/Terminal/VTE
+
+Package: libvte9
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         libvte-common (= ${source:Version})
+Description: Terminal emulator widget for GTK+ 2.0 - runtime files
+ The VTE library provides a terminal emulator widget VteTerminal for
+ applications using the GTK+ toolkit. It also provides the VtePTY object
+ containing functions for starting a new process on a new
+ pseudo-terminal and for manipulating pseudo-terminals.
+ .
+ This package contains the runtime library, needed by programs using the
+ VTE widget with GTK+ 2.0.
+
+Package: libvte9-udeb
+Package-Type: udeb
+Section: debian-installer
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Description: Terminal emulator widget for GTK+ 2.0 - minimal runtime
+ The VTE library provides a terminal emulator widget VteTerminal for
+ applications using the GTK+ toolkit. It also provides the VtePTY object
+ containing functions for starting a new process on a new
+ pseudo-terminal and for manipulating pseudo-terminals.
+ .
+ This package contains the minimal runtime library for GTK+ 2.0 needed
+ by the Debian installer.
+
+Package: libvte-dev
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends},
+         libvte9 (= ${binary:Version}),
+         libcairo2-dev,
+         libx11-dev,
+         libgtk2.0-dev (>= 2.20.0),
+         libpango1.0-dev (>= 1.22.0),
+         libglib2.0-dev (>= 2.26.0),
+         libvte-common
+Description: Terminal emulator widget for GTK+ 2.0 - development files
+ The VTE library provides a terminal emulator widget VteTerminal for
+ applications using the GTK+ toolkit. It also provides the VtePTY object
+ containing functions for starting a new process on a new
+ pseudo-terminal and for manipulating pseudo-terminals.
+ .
+ This package contains development files for the VTE library.
+ It is needed to develop and build programs using the
+ VTE widget with GTK+ 2.0.
+
+Package: libvte-common
+Architecture: all
+Depends: ${misc:Depends}
+Breaks: libvte9 (<< 1:0.28)
+Description: Terminal emulator widget for GTK+ 2.x - common files
+ The VTE library provides a terminal emulator widget VteTerminal for
+ applications using the GTK+ toolkit. It also provides the VtePTY object
+ containing functions for starting a new process on a new
+ pseudo-terminal and for manipulating pseudo-terminals.
+ .
+ This package contains internationalization files for the VTE library
+ and common files for the GTK+ 2.x version.

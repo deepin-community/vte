@@ -1,4 +1,36 @@
 #!/usr/bin/make -f
 
+LIB_PKG := $(shell sed -rn 's/^Package:[[:space:]]*(libvte[0-9]+)[[:space:]]*$$/\1/p' debian/control)
+UDEB_PKG := $(LIB_PKG)-udeb
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,-O1 -Wl,-z,defs -Wl,--as-needed
+export DEB_CFLAGS_MAINT_APPEND = -Os
+
 %:
 	dh $@
+
+override_dh_autoreconf:
+	dh_autoreconf --as-needed
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		--disable-python \
+		--disable-gnome-pty-helper \
+		--disable-gtk-doc \
+		--disable-ncurses
+
+override_dh_clean:
+	dh_clean
+	rm -f src/app.c
+
+override_dh_makeshlibs:
+	dh_makeshlibs -p$(LIB_PKG) --add-udeb=$(UDEB_PKG) -V -- -c4
+	dh_makeshlibs --remaining-packages
+
+override_dh_install:
+	find debian/tmp -name '*.la' -print -delete
+	dh_install
+
+override_dh_missing:
+	dh_missing --list-missing
